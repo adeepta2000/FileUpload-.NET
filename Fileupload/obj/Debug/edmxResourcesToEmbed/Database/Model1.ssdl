@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FileUploadModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="NewUploadFiles">
+    <Key>
+      <PropertyRef Name="DocumentId" />
+    </Key>
+    <Property Name="DocumentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="FileName" Type="varchar" MaxLength="500" />
+    <Property Name="FilePath" Type="varchar" MaxLength="500" />
+    <Property Name="UploadDate" Type="date" />
+    <Property Name="StudentId" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Students">
+    <Key>
+      <PropertyRef Name="StudentId" />
+    </Key>
+    <Property Name="StudentId" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UploadFiles">
+    <Key>
+      <PropertyRef Name="DocumentId" />
+    </Key>
+    <Property Name="DocumentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FileName" Type="varchar" MaxLength="500" />
+    <Property Name="FilePath" Type="varchar" MaxLength="500" />
+    <Property Name="UploadDate" Type="date" />
+    <Property Name="StudentId" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_NewUploadFiles_Students">
+    <End Role="Students" Type="Self.Students" Multiplicity="0..1" />
+    <End Role="NewUploadFiles" Type="Self.NewUploadFiles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Students">
+        <PropertyRef Name="StudentId" />
+      </Principal>
+      <Dependent Role="NewUploadFiles">
+        <PropertyRef Name="StudentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UploadFiles_Students">
+    <End Role="Students" Type="Self.Students" Multiplicity="0..1" />
+    <End Role="UploadFiles" Type="Self.UploadFiles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Students">
+        <PropertyRef Name="StudentId" />
+      </Principal>
+      <Dependent Role="UploadFiles">
+        <PropertyRef Name="StudentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="FileUploadModelStoreContainer">
+    <EntitySet Name="NewUploadFiles" EntityType="Self.NewUploadFiles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Students" EntityType="Self.Students" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UploadFiles" EntityType="Self.UploadFiles" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_NewUploadFiles_Students" Association="Self.FK_NewUploadFiles_Students">
+      <End Role="Students" EntitySet="Students" />
+      <End Role="NewUploadFiles" EntitySet="NewUploadFiles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UploadFiles_Students" Association="Self.FK_UploadFiles_Students">
+      <End Role="Students" EntitySet="Students" />
+      <End Role="UploadFiles" EntitySet="UploadFiles" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

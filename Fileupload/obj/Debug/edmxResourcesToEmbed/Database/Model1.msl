@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="FileUploadModelStoreContainer" CdmEntityContainer="FileUploadEntities">
+    <EntitySetMapping Name="Students">
+      <EntityTypeMapping TypeName="FileUploadModel.Student">
+        <MappingFragment StoreEntitySet="Students">
+          <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UploadFiles">
+      <EntityTypeMapping TypeName="FileUploadModel.UploadFile">
+        <MappingFragment StoreEntitySet="UploadFiles">
+          <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+          <ScalarProperty Name="UploadDate" ColumnName="UploadDate" />
+          <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NewUploadFiles">
+      <EntityTypeMapping TypeName="FileUploadModel.NewUploadFile">
+        <MappingFragment StoreEntitySet="NewUploadFiles">
+          <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+          <ScalarProperty Name="UploadDate" ColumnName="UploadDate" />
+          <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

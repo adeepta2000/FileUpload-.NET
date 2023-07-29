@@ -1,0 +1,18 @@
+﻿@model Fileupload.Database.UploadFile
+
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_dashLayout.cshtml";
+}
+
+<h2>Student Index Page</h2>
+<br />
+<form action="/home/dashboard" class="form-group" method="post" enctype="multipart/form-data">
+    <input type="text" class="form-control" name="Name" placeholder="Give your File a Name" /><br />
+    <label for="formFile" class="form-label">Upload Your file</label>
+    <input type="file" class="form-control" name="File" /><br />
+    <input type="submit" class="btn btn-success" name="Upload" />&nbsp;&nbsp;
+    <a href="/home/checkfile" class="link-dark">Check Uploaded Files</a>
+
+</form>
+

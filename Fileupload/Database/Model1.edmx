@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FileUploadModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="NewUploadFiles">
+          <Key>
+            <PropertyRef Name="DocumentId" />
+          </Key>
+          <Property Name="DocumentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="FileName" Type="varchar" MaxLength="500" />
+          <Property Name="FilePath" Type="varchar" MaxLength="500" />
+          <Property Name="UploadDate" Type="date" />
+          <Property Name="StudentId" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Students">
+          <Key>
+            <PropertyRef Name="StudentId" />
+          </Key>
+          <Property Name="StudentId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UploadFiles">
+          <Key>
+            <PropertyRef Name="DocumentId" />
+          </Key>
+          <Property Name="DocumentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FileName" Type="varchar" MaxLength="500" />
+          <Property Name="FilePath" Type="varchar" MaxLength="500" />
+          <Property Name="UploadDate" Type="date" />
+          <Property Name="StudentId" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_NewUploadFiles_Students">
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1" />
+          <End Role="NewUploadFiles" Type="Self.NewUploadFiles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentId" />
+            </Principal>
+            <Dependent Role="NewUploadFiles">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UploadFiles_Students">
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1" />
+          <End Role="UploadFiles" Type="Self.UploadFiles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentId" />
+            </Principal>
+            <Dependent Role="UploadFiles">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FileUploadModelStoreContainer">
+          <EntitySet Name="NewUploadFiles" EntityType="Self.NewUploadFiles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Students" EntityType="Self.Students" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UploadFiles" EntityType="Self.UploadFiles" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_NewUploadFiles_Students" Association="Self.FK_NewUploadFiles_Students">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="NewUploadFiles" EntitySet="NewUploadFiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UploadFiles_Students" Association="Self.FK_UploadFiles_Students">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="UploadFiles" EntitySet="UploadFiles" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FileUploadModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="StudentId" />
+          </Key>
+          <Property Name="StudentId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="UploadFiles" Relationship="Self.FK_UploadFiles_Students" FromRole="Students" ToRole="UploadFiles" />
+          <NavigationProperty Name="NewUploadFiles" Relationship="FileUploadModel.FK_NewUploadFiles_Students" FromRole="Student" ToRole="NewUploadFile" />
+        </EntityType>
+        <EntityType Name="UploadFile">
+          <Key>
+            <PropertyRef Name="DocumentId" />
+          </Key>
+          <Property Name="DocumentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FileName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="FilePath" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="UploadDate" Type="DateTime" Precision="0" />
+          <Property Name="StudentId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Student" Relationship="Self.FK_UploadFiles_Students" FromRole="UploadFiles" ToRole="Students" />
+        </EntityType>
+        <Association Name="FK_UploadFiles_Students">
+          <End Role="Students" Type="Self.Student" Multiplicity="0..1" />
+          <End Role="UploadFiles" Type="Self.UploadFile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentId" />
+            </Principal>
+            <Dependent Role="UploadFiles">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FileUploadEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Students" EntityType="Self.Student" />
+          <EntitySet Name="UploadFiles" EntityType="Self.UploadFile" />
+          <AssociationSet Name="FK_UploadFiles_Students" Association="Self.FK_UploadFiles_Students">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="UploadFiles" EntitySet="UploadFiles" />
+          </AssociationSet>
+          <EntitySet Name="NewUploadFiles" EntityType="FileUploadModel.NewUploadFile" />
+          <AssociationSet Name="FK_NewUploadFiles_Students" Association="FileUploadModel.FK_NewUploadFiles_Students">
+            <End Role="Student" EntitySet="Students" />
+            <End Role="NewUploadFile" EntitySet="NewUploadFiles" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="NewUploadFile">
+          <Key>
+            <PropertyRef Name="DocumentId" />
+          </Key>
+          <Property Name="DocumentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FileName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="FilePath" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="UploadDate" Type="DateTime" Precision="0" />
+          <Property Name="StudentId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Student" Relationship="FileUploadModel.FK_NewUploadFiles_Students" FromRole="NewUploadFile" ToRole="Student" />
+        </EntityType>
+        <Association Name="FK_NewUploadFiles_Students">
+          <End Type="FileUploadModel.Student" Role="Student" Multiplicity="0..1" />
+          <End Type="FileUploadModel.NewUploadFile" Role="NewUploadFile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="StudentId" />
+            </Principal>
+            <Dependent Role="NewUploadFile">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FileUploadModelStoreContainer" CdmEntityContainer="FileUploadEntities">
+          <EntitySetMapping Name="Students">
+            <EntityTypeMapping TypeName="FileUploadModel.Student">
+              <MappingFragment StoreEntitySet="Students">
+                <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UploadFiles">
+            <EntityTypeMapping TypeName="FileUploadModel.UploadFile">
+              <MappingFragment StoreEntitySet="UploadFiles">
+                <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="UploadDate" ColumnName="UploadDate" />
+                <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NewUploadFiles">
+            <EntityTypeMapping TypeName="FileUploadModel.NewUploadFile">
+              <MappingFragment StoreEntitySet="NewUploadFiles">
+                <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+                <ScalarProperty Name="UploadDate" ColumnName="UploadDate" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

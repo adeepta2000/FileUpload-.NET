@@ -1,0 +1,32 @@
+﻿@model List<Fileupload.Database.NewUploadFile>
+@{
+    ViewBag.Title = "Checkfile";
+    Layout = "~/Views/Shared/_filesLayout.cshtml";
+}
+<a class="btn btn-dark" href="/Home/Dashboard" role="button">Back</a><br />
+
+<h2>Uploaded files</h2>
+<table class="table table-bordered">
+    <tr>
+      
+        <th>Id</th>
+        <th>Name</th>
+        <th>File Name</th>
+        <th>Upload Date</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+           
+            <td>@item.StudentId</td>
+            <td>@item.Name</td>
+            <td>@item.FileName</td>
+            <td>@item.UploadDate</td>
+            <td><a href="/Home/Edit/@item.DocumentId" class="btn btn-primary">Edit</a></td>
+            <td><a href="/Home/Delete/@item.DocumentId" class="btn btn-danger">Delete</a></td>
+        </tr>
+    }
+</table>
+
+

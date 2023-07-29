@@ -1,0 +1,15 @@
+﻿@model Fileupload.Database.NewUploadFile
+@{
+    ViewBag.Title = "Edit";
+   // Layout = "~/Views/Shared/_filesLayout.cshtml";
+}
+
+<h2>Edit Files</h2>
+<form method="post" class="form-group" enctype="multipart/form-data">
+    <input type="hidden" name="DocumentId" value="@Model.DocumentId" class="form-control" />
+    <input type="text" name="Name" value="@Model.Name" class="form-control" />
+    <label for="formFile" class="form-label">Upload Your file</label>
+    <input type="file" class="form-control" name="File" /><br />
+    <input type="submit" value="Update" class="btn btn-primary" />
+</form>
+
